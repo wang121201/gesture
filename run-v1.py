@@ -28,11 +28,11 @@ def createData(dataroot = './leapGestRecog/'):
     return class_labels,images
 
 param = edict({
-    'datapath':'./leapGestRecog/',
-    'batch_size':16,
+    'datapath':'../leapGestRecog/',
+    'batch_size':64,
     'num_workers': 2,
     'split_rate':0.2,
-    'epoch':3,
+    'epoch':5,
     'figsize':224,
     'norm':{
         'normMean':[0.4948052, 0.48568845, 0.44682974],
@@ -50,7 +50,7 @@ def train(model, device, trainloader, optimizer, epoch):
         loss.backward()
         optimizer.step()
         if batch_idx %100 == 0:
-            print('Train Epoch: {:5d} [{:5d}/{:5d} ({:.0f}%)]\tLoss: {:.6f}'.format(
+            print('Train Epoch: {:5d} [{:5d}/{:5d} ({:.2f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(trainloader.dataset),
                 100. * batch_idx / len(trainloader), loss.item()))
 
@@ -69,7 +69,7 @@ def test(model, device, testloader):
 
     test_loss /= len(testloader.dataset)
 
-    print('Test set: Average loss: {:.4f}, Accuracy: {:5d}/{:5d} ({:.0f}%)\n'.format(
+    print('Test set: Average loss: {:.4f}, Accuracy: {:5d}/{:5d} ({:.2f}%)\n'.format(
         test_loss, correct, len(testloader.dataset),
         100. * correct / len(testloader.dataset)))
 
@@ -98,6 +98,7 @@ trainloader = DataLoader(dataset = traindata, batch_size=param.batch_size,
 testloader = DataLoader(dataset = testdata,batch_size=param.batch_size,num_workers=param.num_workers)
 
 model = AlexNet(num_classes=10,dropout=0.5).to(device)
+
 optimizer = optim.Adam(params=model.parameters())
 
 for epoch in range(1, param.epoch + 1):
