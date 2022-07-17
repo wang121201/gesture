@@ -50,7 +50,7 @@ def train(model, device, trainloader, optimizer, epoch):
         loss.backward()
         optimizer.step()
         if batch_idx %100 == 0:
-            print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+            print('Train Epoch: {:5d} [{:5d}/{:5d} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(trainloader.dataset),
                 100. * batch_idx / len(trainloader), loss.item()))
 
@@ -69,7 +69,7 @@ def test(model, device, testloader):
 
     test_loss /= len(testloader.dataset)
 
-    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
+    print('Test set: Average loss: {:.4f}, Accuracy: {:5d}/{:5d} ({:.0f}%)\n'.format(
         test_loss, correct, len(testloader.dataset),
         100. * correct / len(testloader.dataset)))
 
